@@ -19,6 +19,7 @@ void resive_String()
 		index=0;
 		flag_chat=TRUE;
 		
+		
 	}
 	else
 	{
@@ -40,7 +41,10 @@ void communcation_chat_runnable(void)
 	if (flag_chat==TRUE)
 	{
 		spi_send_string(buffer_resive);
-		
+		LCD_SetCursor(0,0);
+		LCD_WriteString("send:");
+		LCD_WriteString(buffer_resive);
+		LCD_WriteString("                ");
 		flag_chat=FALSE;
 	}
 	

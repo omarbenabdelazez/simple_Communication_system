@@ -11,23 +11,35 @@
 #include "DIO_Interface.h"
 #include "LCD_Interface.h"
 
-u8 buffer_resive[20];
-u8 buffer_send[20];
+u8 buffer_resive[20]={0};
+u8 buffer_send[20]={0};
 volatile bool_type  flag_Resive=FALSE;
 void spi_resive_String()
 {
+ 	
 	u8 i=0;
 	
 	for (i=0;i<20;i++)
 	{
+		//THIS LOOP TO RESIVE DATA  FROM  MASTER TO SLAVE
 		buffer_resive[i]=spi_resive();
-
+		
+	
 	}
-	UART_SendStringAsynch(buffer_resive);
-	LCD_SetCursor(0,0);
+		UART_SendStringAsynch(buffer_resive); //To send the buffer  to Virtual Terminal (based on interrupt)
+
+	LCD_SetCursor(0,0);   //to display buffer on lcd
 	LCD_WriteString("res:");
 	LCD_WriteString(buffer_resive);
-	LCD_WriteString("  ");
+	LCD_WriteString("        ");
+	buffer_resive[0]=0X0D;
+	buffer_resive[1]=0;
+	UART_SendStringAsynch(buffer_resive);
+	
+
+	
+	
+
 }
 void resive_String()
 {
@@ -39,13 +51,14 @@ void resive_String()
 		buffer_send[index++]='\0';
 		index=0;
 		LCD_SetCursor(1,0);
+		LCD_WriteString("send:");
 		LCD_WriteString(buffer_send);
-		LCD_WriteString("   ");
+		LCD_WriteString("             ");
 		DIO_WritePin(PINB0,HIGH);
 		_delay_ms(1);
 		DIO_WritePin(PINB0,LOW);
-
 		spi_send_string(buffer_send);
+	
 	}
 	else
 	{

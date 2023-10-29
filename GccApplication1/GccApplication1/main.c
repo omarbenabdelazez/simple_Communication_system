@@ -21,13 +21,27 @@
 void resive(void)
 {
 	u8 i=0;
-	for(i=0;i<30;i++)
+	
+	for(i=0;i<20;i++)
 	{
+		
 		buffer_from_slave[i]=spi_send_resive(1);
+	
 		_delay_ms(5);
+		
 	}
-	LCD_WriteString(buffer_from_slave);
 	UART_SendStringAsynch(buffer_from_slave);
+	LCD_SetCursor(1,0);
+	LCD_WriteString("res:");
+	LCD_WriteString(buffer_from_slave);
+	LCD_WriteString("                ");
+	buffer_from_slave[0]=0x0D;
+	buffer_from_slave[1]=0;
+	UART_SendStringAsynch(buffer_from_slave);
+
+	
+
+	
 }
 
 
@@ -51,6 +65,7 @@ sei();
 	while (1) 
     {
 		communcation_chat_runnable();
+		
 }
 }
 /*

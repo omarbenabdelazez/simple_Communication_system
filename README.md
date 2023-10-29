@@ -1,0 +1,2 @@
+# simple_Communication_system
+ This GitHub repository contains the source code and documentation for an innovative communication chat system implemented using two Atmega32 microcontrollers. The system allows seamless communication between the microcontrollers and a PC or virtual terminal through UART communication protocol. Additionally, the two microcontrollers are interconnected using SPI communication protocol for efficient data exchange.
